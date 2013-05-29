@@ -7,6 +7,7 @@ function SmartInfoWindow(opts) {
   this.latlng_ = opts.position;
   this.content_ = opts.content;
   this.map_ = opts.map;
+  this.div_ = null;
   this.height_ = 351;
   this.width_ = 280;
   this.size_ = new google.maps.Size(this.height_, this.width_);
@@ -25,7 +26,7 @@ function SmartInfoWindow(opts) {
 }
 
 /**
- * SmartInfoWindow extends GOverlay class from the Google Maps API
+ * SmartInfoWindow extends OverlayView class from the Google Maps API
  */
 SmartInfoWindow.prototype = new google.maps.OverlayView();
 
@@ -33,7 +34,7 @@ SmartInfoWindow.prototype = new google.maps.OverlayView();
  * Creates the DIV representing this SmartInfoWindow
  */
 SmartInfoWindow.prototype.onRemove = function() {
-  if (this.div_) {
+  if (this.div_ != null) {
     this.div_.parentNode.removeChild(this.div_);
     this.div_ = null;
   }
@@ -136,7 +137,7 @@ SmartInfoWindow.prototype.draw = function() {
 SmartInfoWindow.prototype.createElement = function() {
   var panes = this.getPanes();
   var div = this.div_;
-  if (!div) {
+  if (div == null) {
     // This does not handle changing panes.  You can set the map to be null and
     // then reset the map to move the div.
     div = this.div_ = document.createElement('div');
@@ -176,13 +177,15 @@ SmartInfoWindow.prototype.createElement = function() {
     // attempting CSS transforms on IFRAME or SWF objects
     // and rendering badly.
     document.body.appendChild(div);
-  } else if (div.parentNode != panes.floatPane) {
+  }
+  else if (div.parentNode != panes.floatPane) {
     // The panes have changed.  Move the div.
     div.parentNode.removeChild(div);
     panes.floatPane.appendChild(div);
-  } else {
-    // The panes have not changed, so no need to create or move the div.
   }
+  /*else {
+    // The panes have not changed, so no need to create or move the div.
+  }*/
 };
 
 SmartInfoWindow.mouseFilter = function(e) {
@@ -321,6 +324,6 @@ SmartInfoWindow.distHaversine = function(lat1, lon1, lat2, lon2) {
           Math.cos(lat1) * Math.cos(lat2) *
           Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c;
-  return d;
+  
+  return R * c;
 }
