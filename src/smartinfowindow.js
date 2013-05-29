@@ -1,4 +1,5 @@
-/* A SmartInfoWindow is like an info window, but it displays
+/**
+ * A SmartInfoWindow is like an info window, but it displays
  * under the marker, opens quicker, and has flexible styling.
  * @param {Object} opts Passes configuration options.
  */
@@ -170,25 +171,20 @@ SmartInfoWindow.prototype.createElement = function() {
     // This does not handle changing panes.  You can set the map to be null and
     // then reset the map to move the div.
     div = this.div_ = document.createElement('div');
-    div.style.border = '0px none';
+    //div.style.border = '0px none';
     div.style.position = 'absolute';
-    div.style.overflow = 'hidden';
+    //div.style.overflow = 'hidden';
     var wrapperDiv = this.wrapperDiv_ = document.createElement('div');
     var contentDiv = document.createElement('div');
     if (typeof this.content_ == 'string') {
       contentDiv.innerHTML = this.content_;
-    } else {
+    }
+    else {
       contentDiv.appendChild(this.content_);
     }
 
     var topDiv = document.createElement('div');
     topDiv.style.textAlign = 'right';
-    //var closeImg = document.createElement('img');
-    //closeImg.src = 'images/closebigger.gif';
-    //closeImg.style.width = '32px';
-    //closeImg.style.height = '32px';
-    //closeImg.style.cursor = 'pointer';
-    //topDiv.appendChild(closeImg);
     var close_button = document.createElement('a');
     close_button.className = "close";
     topDiv.appendChild(close_button);
@@ -200,7 +196,7 @@ SmartInfoWindow.prototype.createElement = function() {
     }
 
     google.maps.event.addDomListener(close_button, 'click', removeSmartInfoWindow(this));
-
+    wrapperDiv.className = "wrapper";
     wrapperDiv.appendChild(topDiv);
     wrapperDiv.appendChild(contentDiv);
     div.appendChild(wrapperDiv);
@@ -209,6 +205,8 @@ SmartInfoWindow.prototype.createElement = function() {
     // attempting CSS transforms on IFRAME or SWF objects
     // and rendering badly.
     //document.body.appendChild(div);
+    
+    // Not sure what that comment means. I'm just adding it to the map element. - jj
     this.map_.getDiv().appendChild(div);
   }
   else if (div.parentNode != panes.floatPane) {
