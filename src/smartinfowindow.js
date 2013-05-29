@@ -181,7 +181,8 @@ SmartInfoWindow.prototype.createElement = function() {
     // Append to body, to avoid bug with Webkit browsers
     // attempting CSS transforms on IFRAME or SWF objects
     // and rendering badly.
-    document.body.appendChild(div);
+    //document.body.appendChild(div);
+    this.map_.getDiv().appendChild(div);
   }
   else if (div.parentNode != panes.floatPane) {
     // The panes have changed.  Move the div.
