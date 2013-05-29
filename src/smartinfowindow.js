@@ -1,4 +1,4 @@
-/* An SmartInfoWindow is like an info window, but it displays
+/* A SmartInfoWindow is like an info window, but it displays
  * under the marker, opens quicker, and has flexible styling.
  * @param {Object} opts Passes configuration options.
  */
@@ -87,10 +87,11 @@ SmartInfoWindow.prototype.draw = function() {
 	  return;
   }
   var alignment = this.getBestAlignment();
-  var paddingTop = 0;
-  var paddingLeft = 0;
-  var widthLess = 0;
-  var heightLess = 0;
+  var paddingTop = 0,
+      paddingBottom = 0,
+      paddingLeft = 0,
+      widthLess = 0,
+      heightLess = 0;
   switch (alignment) {
     case SmartInfoWindow.Align.ABOVE:
       this.div_.className = "SmartInfoWindow above";
@@ -99,6 +100,8 @@ SmartInfoWindow.prototype.draw = function() {
       //image = 'infobox_above.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
       this.offsetY_ = -(this.height_ + 12);
+      paddingBottom = 20;
+      heightLess = 20;
       break;
     case SmartInfoWindow.Align.BELOW:
       this.div_.className = "SmartInfoWindow below";
@@ -143,6 +146,7 @@ SmartInfoWindow.prototype.draw = function() {
   this.wrapperDiv_.style.width = (this.width_- widthLess) + 'px';
   this.wrapperDiv_.style.height = (this.height_ - heightLess) + 'px';
   this.wrapperDiv_.style.marginTop = paddingTop + 'px';
+  this.wrapperDiv_.style.marginBottom = paddingBottom + 'px';
   this.wrapperDiv_.style.marginLeft = paddingLeft + 'px';
   this.wrapperDiv_.style.overflow = 'hidden';
   if (!this.panned_) {
@@ -156,7 +160,7 @@ SmartInfoWindow.prototype.draw = function() {
  * object, retrieved by calling getPanes, is null, remove the element from the
  * DOM.  If the div exists, but its parent is not the floatPane, move the div
  * to the new pane.
- * Called from within draw.  Alternatively, this can be called specifically on
+ * Called from within onAdd.  Alternatively, this can be called specifically on
  * a panes_changed event.
  */
 SmartInfoWindow.prototype.createElement = function() {
