@@ -183,12 +183,15 @@ SmartInfoWindow.prototype.createElement = function() {
 
     var topDiv = document.createElement('div');
     topDiv.style.textAlign = 'right';
-    var closeImg = document.createElement('img');
-    closeImg.src = 'images/closebigger.gif';
-    closeImg.style.width = '32px';
-    closeImg.style.height = '32px';
-    closeImg.style.cursor = 'pointer';
-    topDiv.appendChild(closeImg);
+    //var closeImg = document.createElement('img');
+    //closeImg.src = 'images/closebigger.gif';
+    //closeImg.style.width = '32px';
+    //closeImg.style.height = '32px';
+    //closeImg.style.cursor = 'pointer';
+    //topDiv.appendChild(closeImg);
+    var close_button = document.createElement('a');
+    close_button.className = "close";
+    topDiv.appendChild(close_button);
 
     function removeSmartInfoWindow(ib) {
       return function() {
@@ -196,7 +199,7 @@ SmartInfoWindow.prototype.createElement = function() {
       };
     }
 
-    google.maps.event.addDomListener(closeImg, 'click', removeSmartInfoWindow(this));
+    google.maps.event.addDomListener(close_button, 'click', removeSmartInfoWindow(this));
 
     wrapperDiv.appendChild(topDiv);
     wrapperDiv.appendChild(contentDiv);
