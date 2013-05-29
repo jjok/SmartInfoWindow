@@ -14,6 +14,7 @@ function SmartInfoWindow(opts) {
   this.offsetVertical_ = -this.height_;
   this.offsetHorizontal_ = 0;
   this.panned_ = false;
+  
   this.setMap(this.map_);
 
   // We need to listen to bounds_changed event so that we can redraw
@@ -73,30 +74,34 @@ SmartInfoWindow.prototype.draw = function() {
   var widthLess = 0;
   switch (alignment) {
     case SmartInfoWindow.Align.ABOVE:
+      this.div_.className = "SmartInfoWindow above";
       this.width_ = 280;
       this.height_ = 351;
-      image = 'infobox_above.gif';
+      //image = 'infobox_above.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
       this.offsetY_ = -(this.height_ + 12);
       break;
     case SmartInfoWindow.Align.BELOW:
+      this.div_.className = "SmartInfoWindow below";
       this.width_ = 280;
       this.height_ = 351;
-      image = 'infobox_below.gif';
+      //image = 'infobox_below.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
       this.offsetY_ = -15;
       paddingTop = 20;
       break;
     case SmartInfoWindow.Align.LEFT:
+      this.div_.className = "SmartInfoWindow left";
       this.width_ = 307;
       this.height_ = 326;
-      image = 'infobox_left.gif';
+      //image = 'infobox_left.gif';
       this.offsetX_ = -(this.width_) + 10;
       this.offsetY_ = -(this.height_ / 2 + 33);
       widthLess = 20;
       break;
     case SmartInfoWindow.Align.RIGHT:
-      image = 'infobox_right.gif';
+      this.div_.className = "SmartInfoWindow right";
+      //image = 'infobox_right.gif';
       this.width_ = 307;
       this.height_ = 326;
       this.offsetX_ = 6;
@@ -112,7 +117,7 @@ SmartInfoWindow.prototype.draw = function() {
   this.div_.style.top = (pixPosition.y + this.offsetY_) + centerOffsetY + 'px';
   //this.div_.style.paddingTop = paddingTop + 'px';
   //this.div_.style.paddingLeft = paddingLeft + 'px';
-  this.div_.style.background = 'url("images/' + image + '")';
+  //this.div_.style.background = 'url("images/' + image + '")';
   this.div_.style.display = 'block';
  
   this.wrapperDiv_.style.width = (this.width_- widthLess) + 'px';
@@ -209,15 +214,17 @@ SmartInfoWindow.prototype.maybePanMap = function() {
   var map = this.map_;
   var projection = this.getProjection();
   var bounds = map.getBounds();
-  if (!bounds) return;
+  if (!bounds) {
+	  return;
+  }
 
   // The dimension of the infowindow
-  var iwWidth = this.width_;
-  var iwHeight = this.height_;
+  var iwWidth = this.width_,
+      iwHeight = this.height_;
 
   // The offset position of the infowindow
-  var iwOffsetX = this.offsetX_;
-  var iwOffsetY = this.offsetY_;
+  var iwOffsetX = this.offsetX_,
+      iwOffsetY = this.offsetY_;
 
   var anchorPixel = projection.fromLatLngToDivPixel(this.latlng_);
   var bl = new google.maps.Point(anchorPixel.x + iwOffsetX + 20,
@@ -291,9 +298,9 @@ SmartInfoWindow.prototype.getPanValue = function(alignment) {
           bounds.getSouthWest().lng());
       break;
   }
-  var dist = SmartInfoWindow.distHaversine(this.latlng_.lat(), this.latlng_.lng(),
+  
+  return SmartInfoWindow.distHaversine(this.latlng_.lat(), this.latlng_.lng(),
       sideLatLng.lat(), sideLatLng.lng());
-  return dist;
 };
 
 
