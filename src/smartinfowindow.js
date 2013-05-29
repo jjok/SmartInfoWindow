@@ -16,6 +16,12 @@ function SmartInfoWindow(opts) {
   this.panned_ = false;
   
   this.setMap(this.map_);
+  
+  if(SmartInfoWindow.current != null) {
+	  SmartInfoWindow.current.onRemove();
+	  //console.log('SmartInfoWindow.current.onRemove');
+  }
+  SmartInfoWindow.current = this;
 
   // We need to listen to bounds_changed event so that we can redraw
   // absolute position every time the map moves.
@@ -25,6 +31,8 @@ function SmartInfoWindow(opts) {
     me.draw();
   });
 }
+
+SmartInfoWindow.current = null;
 
 /**
  * SmartInfoWindow extends OverlayView class from the Google Maps API
