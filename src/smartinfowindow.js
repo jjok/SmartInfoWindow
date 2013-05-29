@@ -18,6 +18,7 @@ function SmartInfoWindow(opts) {
   
   this.setMap(this.map_);
   
+  // Close the previous SmartInfoWindow
   if(SmartInfoWindow.current != null) {
 	  SmartInfoWindow.current.onRemove();
 	  //console.log('SmartInfoWindow.current.onRemove');
@@ -33,6 +34,9 @@ function SmartInfoWindow(opts) {
   });
 }
 
+/**
+ * Stores the current instance.
+ */
 SmartInfoWindow.current = null;
 
 /**
@@ -87,6 +91,7 @@ SmartInfoWindow.prototype.draw = function() {
   if (!pixPosition) {
 	  return;
   }
+  //TODO Make this whole bit dynamic
   var alignment = this.getBestAlignment();
   var paddingTop = 0,
       paddingBottom = 0,
@@ -219,6 +224,7 @@ SmartInfoWindow.prototype.createElement = function() {
   }*/
 };
 
+//TODO Find out what this does.
 SmartInfoWindow.mouseFilter = function(e) {
   e.returnValue = 'true';
   e['handled'] = true;

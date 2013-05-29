@@ -8,5 +8,4 @@ TODO
 ----
 
 * Make dimensions settable/dynamic/automatic.
-* Make close button styleable.
 * Make padding offset settable.
