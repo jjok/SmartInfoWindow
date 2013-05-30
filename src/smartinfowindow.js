@@ -5,17 +5,17 @@
  */
 function SmartInfoWindow(opts) {
   google.maps.OverlayView.call(this);
+  
   this.latlng_ = opts.position;
   this.content_ = opts.content;
   this.map_ = opts.map;
   this.div_ = null;
   this.original_width = this.width_ = opts.width;
   this.original_height = this.height_ = opts.height;
-  //this.height_ = 351;
-  //this.width_ = 280;
+  this._closeText = opts.closeText || null;
   this.size_ = new google.maps.Size(this.height_, this.width_);
-  this.offsetVertical_ = -this.height_;
-  this.offsetHorizontal_ = 0;
+  //this.offsetVertical_ = -this.height_;
+  //this.offsetHorizontal_ = 0;
   this.panned_ = false;
 
   this.setMap(this.map_);
@@ -204,6 +204,9 @@ SmartInfoWindow.prototype.createElement = function() {
     var topDiv = document.createElement('div');
     topDiv.style.textAlign = 'right';
     var close_button = document.createElement('a');
+    if(typeof this._closeText == "string") {
+    	close_button.appendChild(document.createTextNode(this._closeText));
+    }
     close_button.className = "close";
     topDiv.appendChild(close_button);
 
