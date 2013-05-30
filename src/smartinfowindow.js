@@ -9,15 +9,17 @@ function SmartInfoWindow(opts) {
   this.content_ = opts.content;
   this.map_ = opts.map;
   this.div_ = null;
-  this.height_ = 351;
-  this.width_ = 280;
+  this.original_width = this.width_ = opts.width;
+  this.original_height = this.height_ = opts.height;
+  //this.height_ = 351;
+  //this.width_ = 280;
   this.size_ = new google.maps.Size(this.height_, this.width_);
   this.offsetVertical_ = -this.height_;
   this.offsetHorizontal_ = 0;
   this.panned_ = false;
-  
+
   this.setMap(this.map_);
-  
+
   // Close the previous SmartInfoWindow
   if(SmartInfoWindow.current != null) {
 	  SmartInfoWindow.current.onRemove();
@@ -101,8 +103,10 @@ SmartInfoWindow.prototype.draw = function() {
   switch (alignment) {
     case SmartInfoWindow.Align.ABOVE:
       this.div_.className = "SmartInfoWindow above";
-      this.width_ = 280;
-      this.height_ = 351;
+      this.width_ = this.original_width;
+      this.height_ = this.original_height;
+      //this.width_ = 280;
+      //this.height_ = 351;
       //image = 'infobox_above.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
       this.offsetY_ = -(this.height_ + 12);
@@ -111,8 +115,10 @@ SmartInfoWindow.prototype.draw = function() {
       break;
     case SmartInfoWindow.Align.BELOW:
       this.div_.className = "SmartInfoWindow below";
-      this.width_ = 280;
-      this.height_ = 351;
+      this.width_ = this.original_width;
+      this.height_ = this.original_height;
+      //this.width_ = 280;
+      //this.height_ = 351;
       //image = 'infobox_below.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
       this.offsetY_ = -15;
@@ -121,8 +127,10 @@ SmartInfoWindow.prototype.draw = function() {
       break;
     case SmartInfoWindow.Align.LEFT:
       this.div_.className = "SmartInfoWindow left";
-      this.width_ = 307;
-      this.height_ = 326;
+      this.width_ = this.original_width + 27;
+      this.height_ = this.original_height - 25;
+      //this.width_ = 307;
+      //this.height_ = 326;
       //image = 'infobox_left.gif';
       this.offsetX_ = -(this.width_) + 10;
       this.offsetY_ = -(this.height_ / 2 + 33);
@@ -131,8 +139,10 @@ SmartInfoWindow.prototype.draw = function() {
     case SmartInfoWindow.Align.RIGHT:
       this.div_.className = "SmartInfoWindow right";
       //image = 'infobox_right.gif';
-      this.width_ = 307;
-      this.height_ = 326;
+      this.width_ = this.original_width + 27;
+      this.height_ = this.original_height - 25;
+      //this.width_ = 307;
+      //this.height_ = 326;
       this.offsetX_ = 6;
       this.offsetY_ = -(this.height_ / 2 + 33);
       paddingLeft = 20;
