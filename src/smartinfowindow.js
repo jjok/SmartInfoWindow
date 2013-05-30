@@ -98,6 +98,7 @@ SmartInfoWindow.prototype.draw = function() {
   var paddingTop = 0,
       paddingBottom = 0,
       paddingLeft = 0,
+      paddingRight = 0,
       widthLess = 0,
       heightLess = 0;
   switch (alignment) {
@@ -121,7 +122,7 @@ SmartInfoWindow.prototype.draw = function() {
       //this.height_ = 351;
       //image = 'infobox_below.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
-      this.offsetY_ = -15;
+      this.offsetY_ = -6;
       paddingTop = 20;
       heightLess = 20;
       break;
@@ -132,8 +133,9 @@ SmartInfoWindow.prototype.draw = function() {
       //this.width_ = 307;
       //this.height_ = 326;
       //image = 'infobox_left.gif';
-      this.offsetX_ = -(this.width_) + 10;
+      this.offsetX_ = -(this.width_) - 6;
       this.offsetY_ = -(this.height_ / 2 + 33);
+      paddingRight = 20,
       widthLess = 20;
       break;
     case SmartInfoWindow.Align.RIGHT:
@@ -164,6 +166,7 @@ SmartInfoWindow.prototype.draw = function() {
   this.wrapperDiv_.style.marginTop = paddingTop + 'px';
   this.wrapperDiv_.style.marginBottom = paddingBottom + 'px';
   this.wrapperDiv_.style.marginLeft = paddingLeft + 'px';
+  this.wrapperDiv_.style.marginRight = paddingRight + 'px';
   this.wrapperDiv_.style.overflow = 'hidden';
   if (!this.panned_) {
     this.panned_ = true;
