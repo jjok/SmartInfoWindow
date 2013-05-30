@@ -128,8 +128,8 @@ SmartInfoWindow.prototype.draw = function() {
       break;
     case SmartInfoWindow.Align.LEFT:
       this.div_.className = "SmartInfoWindow left";
-      this.width_ = this.original_width + 27;
-      this.height_ = this.original_height - 25;
+      this.width_ = this.original_width/* + 27*/;
+      this.height_ = this.original_height/* - 25*/;
       //this.width_ = 307;
       //this.height_ = 326;
       //image = 'infobox_left.gif';
@@ -141,8 +141,8 @@ SmartInfoWindow.prototype.draw = function() {
     case SmartInfoWindow.Align.RIGHT:
       this.div_.className = "SmartInfoWindow right";
       //image = 'infobox_right.gif';
-      this.width_ = this.original_width + 27;
-      this.height_ = this.original_height - 25;
+      this.width_ = this.original_width/* + 27*/;
+      this.height_ = this.original_height/* - 25*/;
       //this.width_ = 307;
       //this.height_ = 326;
       this.offsetX_ = 6;
