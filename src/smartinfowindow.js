@@ -203,14 +203,15 @@ SmartInfoWindow.prototype.createElement = function() {
       contentDiv.appendChild(this.content_);
     }
 
-    var topDiv = document.createElement('div');
-    topDiv.style.textAlign = 'right';
+    //var topDiv = document.createElement('div');
+    //topDiv.style.textAlign = 'right';
     var close_button = document.createElement('a');
     if(typeof this._closeText == "string") {
     	close_button.appendChild(document.createTextNode(this._closeText));
     }
     close_button.className = "close";
-    topDiv.appendChild(close_button);
+    //topDiv.appendChild(close_button);
+    wrapperDiv.appendChild(close_button);
 
     function removeSmartInfoWindow(ib) {
       return function() {
@@ -220,7 +221,7 @@ SmartInfoWindow.prototype.createElement = function() {
 
     google.maps.event.addDomListener(close_button, 'click', removeSmartInfoWindow(this));
     wrapperDiv.className = "wrapper";
-    wrapperDiv.appendChild(topDiv);
+    //wrapperDiv.appendChild(topDiv);
     wrapperDiv.appendChild(contentDiv);
     div.appendChild(wrapperDiv);
     div.style.display = 'none';
