@@ -100,7 +100,9 @@ SmartInfoWindow.prototype.draw = function() {
       paddingLeft = 0,
       paddingRight = 0,
       widthLess = 0,
-      heightLess = 0;
+      heightLess = 0,
+      padding_x = 20,
+      padding_y = 20;
   switch (alignment) {
     case SmartInfoWindow.Align.ABOVE:
       this.div_.className = "SmartInfoWindow above";
@@ -110,9 +112,9 @@ SmartInfoWindow.prototype.draw = function() {
       //this.height_ = 351;
       //image = 'infobox_above.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
-      this.offsetY_ = -(this.height_ + 12);
-      paddingBottom = 20;
-      heightLess = 20;
+      this.offsetY_ = -(this.height_ + 32);
+      paddingBottom = padding_x;
+      heightLess = padding_x;
       break;
     case SmartInfoWindow.Align.BELOW:
       this.div_.className = "SmartInfoWindow below";
@@ -122,9 +124,9 @@ SmartInfoWindow.prototype.draw = function() {
       //this.height_ = 351;
       //image = 'infobox_below.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
-      this.offsetY_ = -6;
-      paddingTop = 20;
-      heightLess = 20;
+      this.offsetY_ = 6;
+      paddingTop = padding_x;
+      heightLess = padding_x;
       break;
     case SmartInfoWindow.Align.LEFT:
       this.div_.className = "SmartInfoWindow left";
@@ -133,10 +135,10 @@ SmartInfoWindow.prototype.draw = function() {
       //this.width_ = 307;
       //this.height_ = 326;
       //image = 'infobox_left.gif';
-      this.offsetX_ = -(this.width_) - 6;
+      this.offsetX_ = -(this.width_) - 26;
       this.offsetY_ = -(this.height_ / 2 + 33);
-      paddingRight = 20,
-      widthLess = 20;
+      paddingRight = padding_y,
+      widthLess = padding_y;
       break;
     case SmartInfoWindow.Align.RIGHT:
       this.div_.className = "SmartInfoWindow right";
@@ -147,22 +149,22 @@ SmartInfoWindow.prototype.draw = function() {
       //this.height_ = 326;
       this.offsetX_ = 6;
       this.offsetY_ = -(this.height_ / 2 + 33);
-      paddingLeft = 20;
-      widthLess = 20;
+      paddingLeft = padding_y;
+      widthLess = padding_y;
       break;
    }
   // Now position our DIV based on the DIV coordinates of our bounds
-  this.div_.style.width = this.width_ + 'px';
+  this.div_.style.width = (this.width_ + widthLess) + 'px';
   this.div_.style.left = (pixPosition.x + this.offsetX_) + centerOffsetX + 'px';
-  this.div_.style.height = this.height_ + 'px';
+  this.div_.style.height = (this.height_ + heightLess) + 'px';
   this.div_.style.top = (pixPosition.y + this.offsetY_) + centerOffsetY + 'px';
   //this.div_.style.paddingTop = paddingTop + 'px';
   //this.div_.style.paddingLeft = paddingLeft + 'px';
   //this.div_.style.background = 'url("images/' + image + '")';
   this.div_.style.display = 'block';
  
-  this.wrapperDiv_.style.width = (this.width_- widthLess) + 'px';
-  this.wrapperDiv_.style.height = (this.height_ - heightLess) + 'px';
+  this.wrapperDiv_.style.width = (this.width_/*- widthLess*/) + 'px';
+  this.wrapperDiv_.style.height = (this.height_/* - heightLess*/) + 'px';
   this.wrapperDiv_.style.marginTop = paddingTop + 'px';
   this.wrapperDiv_.style.marginBottom = paddingBottom + 'px';
   this.wrapperDiv_.style.marginLeft = paddingLeft + 'px';
