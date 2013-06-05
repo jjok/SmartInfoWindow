@@ -15,7 +15,7 @@ function SmartInfoWindow(opts) {
   //this.original_height = 
   this.height_ = opts.height;
   this._closeText = opts.closeText || null;
-  this.size_ = new google.maps.Size(this.height_, this.width_);
+  //this.size_ = new google.maps.Size(this.height_, this.width_);
   //this.offsetVertical_ = -this.height_;
   //this.offsetHorizontal_ = 0;
   this.panned_ = false;
