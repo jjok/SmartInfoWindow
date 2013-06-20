@@ -164,7 +164,7 @@ SmartInfoWindow.prototype.draw = function() {
   //this.div_.style.paddingLeft = paddingLeft + 'px';
   //this.div_.style.background = 'url("images/' + image + '")';
   this.div_.style.display = 'block';
- 
+  
   this.wrapperDiv_.style.width = (this.width_/*- widthLess*/) + 'px';
   this.wrapperDiv_.style.height = (this.height_/* - heightLess*/) + 'px';
   this.wrapperDiv_.style.marginTop = paddingTop + 'px';
@@ -175,7 +175,7 @@ SmartInfoWindow.prototype.draw = function() {
   if (!this.panned_) {
     this.panned_ = true;
     //TODO Pass dimensions and offset values in here.
-    this.maybePanMap();
+    this.maybePanMap(this.offsetX_, this.offsetY_);
   }
 };
 
@@ -250,7 +250,7 @@ SmartInfoWindow.prototype.createElement = function() {
 SmartInfoWindow.mouseFilter = function(e) {
   e.returnValue = 'true';
   e['handled'] = true;
-}
+};
 
 /**
  * Closes infowindow
@@ -263,7 +263,7 @@ SmartInfoWindow.prototype.close = function() {
  * Pan the map to fit the SmartInfoWindow,
  * if its top or bottom corners aren't visible.
  */
-SmartInfoWindow.prototype.maybePanMap = function() {
+SmartInfoWindow.prototype.maybePanMap = function(offset_x, offset_y) {
   // if we go beyond map, pan map
   var map = this.map_;
   var projection = this.getProjection();
@@ -273,14 +273,14 @@ SmartInfoWindow.prototype.maybePanMap = function() {
   }
 
   // The dimension of the infowindow
-  var iwWidth = this.width_,
+  /*var iwWidth = this.width_,
       iwHeight = this.height_;
 
   // The offset position of the infowindow
   var iwOffsetX = this.offsetX_,
-      iwOffsetY = this.offsetY_;
+      iwOffsetY = this.offsetY_;*/
 
-  var anchorPixel = projection.fromLatLngToDivPixel(this.latlng_),
+  var anchorPixel = projection.fromLatLngToDivPixel(this.latlng_)/*,
       bl = new google.maps.Point(
     		  anchorPixel.x + iwOffsetX + 20,
               anchorPixel.y + iwOffsetY + iwHeight
@@ -290,7 +290,27 @@ SmartInfoWindow.prototype.maybePanMap = function() {
               anchorPixel.y + iwOffsetY
            ),
       sw = projection.fromDivPixelToLatLng(bl),
-      ne = projection.fromDivPixelToLatLng(tr);
+      ne = projection.fromDivPixelToLatLng(tr)*/;
+
+  var top_left = new google.maps.Point(
+	  anchorPixel.x + offset_x - 20,
+	  anchorPixel.y + offset_y - 20
+  ),
+  bottom_right = new google.maps.Point(
+	  top_left.x + this.width_ + 40/*(this.paddingLeft * 2) + (this.paddingRight * 2)*/,
+	  top_left.y + this.height_ + 40/*(this.paddingTop * 2) + (this.paddingBottom * 2)*/
+  );
+  var sw = projection.fromDivPixelToLatLng(top_left),
+  	  ne = projection.fromDivPixelToLatLng(bottom_right);
+
+//  new google.maps.Marker({
+//	    position: sw,
+//	    title:"sw"
+//	}).setMap(map);
+//  new google.maps.Marker({
+//	    position: ne,
+//	    title:"ne"
+//	}).setMap(map);
 
   // The bounds of the infowindow
   if (!map.getBounds().contains(ne) || !map.getBounds().contains(sw)) {
@@ -334,10 +354,10 @@ SmartInfoWindow.prototype.getBestAlignment = function() {
  * @return {number} Distance for that alignment.
  */
 SmartInfoWindow.prototype.getPanValue = function(alignment) {
-  var mapSize = new google.maps.Size(
-		  this.map_.getDiv().offsetWidth,
-          this.map_.getDiv().offsetHeight
-      );
+//  var mapSize = new google.maps.Size(
+//		  this.map_.getDiv().offsetWidth,
+//          this.map_.getDiv().offsetHeight
+//      );
   var bounds = this.map_.getBounds();
   var sideLatLng;
   switch (alignment) {
@@ -379,7 +399,7 @@ SmartInfoWindow.prototype.getPanValue = function(alignment) {
  */
 SmartInfoWindow.toRad = function(num) {
     return num * Math.PI / 180;
-}
+};
 
 /**
  * Calculates distance between two coordinates.
@@ -401,4 +421,4 @@ SmartInfoWindow.distHaversine = function(lat1, lon1, lat2, lon2) {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   
   return R * c;
-}
+};
