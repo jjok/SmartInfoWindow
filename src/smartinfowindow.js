@@ -1,6 +1,7 @@
 /**
  * A SmartInfoWindow is like an info window, but it displays
  * under the marker, opens quicker, and has flexible styling.
+ * @version 0.1.0
  * @param {Object} opts Passes configuration options.
  */
 function SmartInfoWindow(opts) {
