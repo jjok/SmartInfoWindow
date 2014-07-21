@@ -63,8 +63,6 @@ SmartInfoWindow.prototype.onRemove = function() {
  * Called when the overlay is first added to the map.
  */
 SmartInfoWindow.prototype.onAdd = function() {
-	//console.log('SmartInfoWindow.prototype.onAdd');
-  // Creates the element if it doesn't exist already.
   this.createElement();
 };
 
@@ -72,7 +70,6 @@ SmartInfoWindow.prototype.onAdd = function() {
  * Redraw based on the current projection and zoom level.
  */
 SmartInfoWindow.prototype.draw = function() {
-	//console.log('SmartInfoWindow.prototype.draw');
   // Since we use bounds changed listener, projection is sometimes null
   if (!this.getProjection()) {
     return;
@@ -87,14 +84,17 @@ SmartInfoWindow.prototype.draw = function() {
   // This gives us the position in the tiles div.
   var pixPosition = this.getProjection().fromLatLngToDivPixel(this.latlng_);
   var centerPosition = this.getProjection().fromLatLngToDivPixel(this.map_.getCenter());
-  var centerPositionReal = new google.maps.Point(this.map_.getDiv().offsetWidth/2, this.map_.getDiv().offsetHeight/2);
+  var centerPositionReal = new google.maps.Point(
+    this.map_.getDiv().offsetWidth / 2,
+    this.map_.getDiv().offsetHeight / 2
+  );
   // Figure out difference between map div and tiles div, so that we can
   // calculate position in map div
   var centerOffsetX = -centerPosition.x + centerPositionReal.x;
   var centerOffsetY = -centerPosition.y + centerPositionReal.y;
 
   if (!pixPosition) {
-	  return;
+    return;
   }
   //TODO Make this whole bit dynamic
   var alignment = this.getBestAlignment();
@@ -106,73 +106,56 @@ SmartInfoWindow.prototype.draw = function() {
       heightLess = 0,
       padding_x = 20,
       padding_y = 20;
+  
   switch (alignment) {
     case SmartInfoWindow.Align.ABOVE:
       this.div_.className = "SmartInfoWindow above";
-//      this.width_ = this.original_width;
-//      this.height_ = this.original_height;
-      //this.width_ = 280;
-      //this.height_ = 351;
-      //image = 'infobox_above.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
       this.offsetY_ = -(this.height_ + 32);
       paddingBottom = padding_x;
       heightLess = padding_x;
       break;
+    
     case SmartInfoWindow.Align.BELOW:
       this.div_.className = "SmartInfoWindow below";
-//      this.width_ = this.original_width;
-//      this.height_ = this.original_height;
-      //this.width_ = 280;
-      //this.height_ = 351;
-      //image = 'infobox_below.gif';
       this.offsetX_ = -(this.width_ / 2 - 17);
       this.offsetY_ = 6;
       paddingTop = padding_x;
       heightLess = padding_x;
       break;
+    
     case SmartInfoWindow.Align.LEFT:
       this.div_.className = "SmartInfoWindow left";
-//      this.width_ = this.original_width/* + 27*/;
-//      this.height_ = this.original_height/* - 25*/;
-      //this.width_ = 307;
-      //this.height_ = 326;
-      //image = 'infobox_left.gif';
       this.offsetX_ = -(this.width_) - 26;
       this.offsetY_ = -(this.height_ / 2 + 33);
       paddingRight = padding_y,
       widthLess = padding_y;
       break;
+    
     case SmartInfoWindow.Align.RIGHT:
       this.div_.className = "SmartInfoWindow right";
-      //image = 'infobox_right.gif';
-//      this.width_ = this.original_width/* + 27*/;
-//      this.height_ = this.original_height/* - 25*/;
-      //this.width_ = 307;
-      //this.height_ = 326;
       this.offsetX_ = 6;
       this.offsetY_ = -(this.height_ / 2 + 33);
       paddingLeft = padding_y;
       widthLess = padding_y;
       break;
-   }
+  }
+  
   // Now position our DIV based on the DIV coordinates of our bounds
   this.div_.style.width = (this.width_ + widthLess) + 'px';
   this.div_.style.left = (pixPosition.x + this.offsetX_) + centerOffsetX + 'px';
   this.div_.style.height = (this.height_ + heightLess) + 'px';
   this.div_.style.top = (pixPosition.y + this.offsetY_) + centerOffsetY + 'px';
-  //this.div_.style.paddingTop = paddingTop + 'px';
-  //this.div_.style.paddingLeft = paddingLeft + 'px';
-  //this.div_.style.background = 'url("images/' + image + '")';
   this.div_.style.display = 'block';
   
-  this.wrapperDiv_.style.width = (this.width_/*- widthLess*/) + 'px';
-  this.wrapperDiv_.style.height = (this.height_/* - heightLess*/) + 'px';
+  this.wrapperDiv_.style.width = this.width_ + 'px';
+  this.wrapperDiv_.style.height = this.height_ + 'px';
   this.wrapperDiv_.style.marginTop = paddingTop + 'px';
   this.wrapperDiv_.style.marginBottom = paddingBottom + 'px';
   this.wrapperDiv_.style.marginLeft = paddingLeft + 'px';
   this.wrapperDiv_.style.marginRight = paddingRight + 'px';
   this.wrapperDiv_.style.overflow = 'hidden';
+  
   if (!this.panned_) {
     this.panned_ = true;
     //TODO Pass dimensions and offset values in here.
@@ -195,9 +178,7 @@ SmartInfoWindow.prototype.createElement = function() {
     // This does not handle changing panes.  You can set the map to be null and
     // then reset the map to move the div.
     div = this.div_ = document.createElement('div');
-    //div.style.border = '0px none';
     div.style.position = 'absolute';
-    //div.style.overflow = 'hidden';
     var wrapperDiv = this.wrapperDiv_ = document.createElement('div');
     var contentDiv = document.createElement('div');
     if (typeof this.content_ == 'string') {
@@ -207,8 +188,6 @@ SmartInfoWindow.prototype.createElement = function() {
       contentDiv.appendChild(this.content_);
     }
 
-    //var topDiv = document.createElement('div');
-    //topDiv.style.textAlign = 'right';
     var close_button = document.createElement('a');
     if(typeof this._closeText == "string") {
     	close_button.appendChild(document.createTextNode(this._closeText));
@@ -229,12 +208,8 @@ SmartInfoWindow.prototype.createElement = function() {
     wrapperDiv.appendChild(contentDiv);
     div.appendChild(wrapperDiv);
     div.style.display = 'none';
-    // Append to body, to avoid bug with Webkit browsers
-    // attempting CSS transforms on IFRAME or SWF objects
-    // and rendering badly.
-    //document.body.appendChild(div);
     
-    // Not sure what that comment means. I'm just adding it to the map element. - jj
+    // Add info window to map
     this.map_.getDiv().appendChild(div);
   }
   else if (div.parentNode != panes.floatPane) {
@@ -247,7 +222,9 @@ SmartInfoWindow.prototype.createElement = function() {
   }*/
 };
 
-//TODO Find out what this does.
+/**
+ * @todo Find out what this does.
+ */
 SmartInfoWindow.mouseFilter = function(e) {
   e.returnValue = 'true';
   e['handled'] = true;
@@ -270,49 +247,21 @@ SmartInfoWindow.prototype.maybePanMap = function(offset_x, offset_y) {
   var projection = this.getProjection();
   var bounds = map.getBounds();
   if (!bounds) {
-	  return;
+    return;
   }
-
-  // The dimension of the infowindow
-  /*var iwWidth = this.width_,
-      iwHeight = this.height_;
-
-  // The offset position of the infowindow
-  var iwOffsetX = this.offsetX_,
-      iwOffsetY = this.offsetY_;*/
-
-  var anchorPixel = projection.fromLatLngToDivPixel(this.latlng_)/*,
-      bl = new google.maps.Point(
-    		  anchorPixel.x + iwOffsetX + 20,
-              anchorPixel.y + iwOffsetY + iwHeight
-           ),
-      tr = new google.maps.Point(
-    		  anchorPixel.x + iwOffsetX + iwWidth,
-              anchorPixel.y + iwOffsetY
-           ),
-      sw = projection.fromDivPixelToLatLng(bl),
-      ne = projection.fromDivPixelToLatLng(tr)*/;
-
+  
+  var anchorPixel = projection.fromLatLngToDivPixel(this.latlng_);
   var top_left = new google.maps.Point(
-	  anchorPixel.x + offset_x - 20,
-	  anchorPixel.y + offset_y - 20
+    anchorPixel.x + offset_x - 20,
+    anchorPixel.y + offset_y - 20
   ),
   bottom_right = new google.maps.Point(
-	  top_left.x + this.width_ + 40/*(this.paddingLeft * 2) + (this.paddingRight * 2)*/,
-	  top_left.y + this.height_ + 40/*(this.paddingTop * 2) + (this.paddingBottom * 2)*/
+    top_left.x + this.width_ + 40,
+    top_left.y + this.height_ + 40
   );
   var sw = projection.fromDivPixelToLatLng(top_left),
-  	  ne = projection.fromDivPixelToLatLng(bottom_right);
-
-//  new google.maps.Marker({
-//	    position: sw,
-//	    title:"sw"
-//	}).setMap(map);
-//  new google.maps.Marker({
-//	    position: ne,
-//	    title:"ne"
-//	}).setMap(map);
-
+      ne = projection.fromDivPixelToLatLng(bottom_right);
+  
   // The bounds of the infowindow
   if (!map.getBounds().contains(ne) || !map.getBounds().contains(sw)) {
     map.panToBounds(new google.maps.LatLngBounds(sw, ne));
@@ -355,10 +304,6 @@ SmartInfoWindow.prototype.getBestAlignment = function() {
  * @return {number} Distance for that alignment.
  */
 SmartInfoWindow.prototype.getPanValue = function(alignment) {
-//  var mapSize = new google.maps.Size(
-//		  this.map_.getDiv().offsetWidth,
-//          this.map_.getDiv().offsetHeight
-//      );
   var bounds = this.map_.getBounds();
   var sideLatLng;
   switch (alignment) {
@@ -380,18 +325,22 @@ SmartInfoWindow.prototype.getPanValue = function(alignment) {
           bounds.getNorthEast().lng()
       );
       break;
-    case SmartInfoWindow.Align.LEFT:
+//    case SmartInfoWindow.Align.LEFT:
+    default:
       sideLatLng = new google.maps.LatLng(
-    	  this.latlng_.lat(),
+          this.latlng_.lat(),
           bounds.getSouthWest().lng()
       );
       break;
   }
   
-  return SmartInfoWindow.distHaversine(this.latlng_.lat(), this.latlng_.lng(),
-      sideLatLng.lat(), sideLatLng.lng());
+  return SmartInfoWindow.distHaversine(
+    this.latlng_.lat(),
+    this.latlng_.lng(),
+    sideLatLng.lat(),
+    sideLatLng.lng()
+  );
 };
-
 
 /**
  * Converts degrees to radians.
@@ -399,7 +348,7 @@ SmartInfoWindow.prototype.getPanValue = function(alignment) {
  * @return {number} Angle in radians.
  */
 SmartInfoWindow.toRad = function(num) {
-    return num * Math.PI / 180;
+  return num * Math.PI / 180;
 };
 
 /**
@@ -412,9 +361,11 @@ SmartInfoWindow.toRad = function(num) {
  */
 SmartInfoWindow.distHaversine = function(lat1, lon1, lat2, lon2) {
   var R = 6371; // earth's mean radius in km
-  var dLat = SmartInfoWindow.toRad(lat2 - lat1);
-  var dLon = SmartInfoWindow.toRad(lon2 - lon1);
-  lat1 = SmartInfoWindow.toRad(lat1), lat2 = SmartInfoWindow.toRad(lat2);
+  var dLat = SmartInfoWindow.toRad(lat2 - lat1),
+      dLon = SmartInfoWindow.toRad(lon2 - lon1);
+  
+  lat1 = SmartInfoWindow.toRad(lat1);
+  lat2 = SmartInfoWindow.toRad(lat2);
 
   var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
           Math.cos(lat1) * Math.cos(lat2) *
